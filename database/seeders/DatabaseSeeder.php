@@ -14,6 +14,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        if ($this->command->confirm('Reset database?')) {
+            $this->command->call('migrate:refresh');
+            $this->command->warn("Database reseted, all data is gone");
+        }
+        
+        $this->call([
+            RoleUserSeeder::class,
+            SuperUserSeeder::class,
+        ]);
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([
