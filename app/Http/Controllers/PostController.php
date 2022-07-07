@@ -23,7 +23,7 @@ class PostController extends Controller
      */
     public function create()
     {   
-        $data = page_info('Create Blog', 'Write post by fill the form and submit');
+        $data = page_info('Create Post', 'Write post by fill the form and submit');
 
         return view('admin.post.create', $data);
     }
