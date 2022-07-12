@@ -31,7 +31,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="formContent" class="form-label">Content</label>
-                                <textarea name="content" id="formContent" class="form-control" rows="10" placeholder="Subtitle here..." required></textarea>
+                                <textarea name="content" id="postEditor" class="form-control" rows="10" placeholder="Subtitle here..." required></textarea>
                                 <p>
                                     <small class="text-muted">Drag the bottom right cornet to expand the content form</small>
                                 </p>
@@ -85,30 +85,25 @@
                 </form>
             </div>
         </div>
-        <div class="card">
-            <div class="card-header">
-                <h4 class="card-title">Post Form</h4>
-            </div>
-            <div class="card-body">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam, commodi? Ullam quaerat similique iusto
-                temporibus, vero aliquam praesentium, odit deserunt eaque nihil saepe hic deleniti? Placeat delectus
-                quibusdam ratione ullam!
-            </div>
-        </div>
     </section>
+@stop
+
+@section('tinymce')
+    <script src="https://cdn.tiny.cloud/1/{{ env('TINYMCE_KEY') }}/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 @stop
 
 @section('js')
     <script src="{{ asset('vendors/mazer/assets/js/extensions/form-element-select.js') }}"></script>
+
     <script>
         function addSourceInputForm() {
             const formString = `
             <div class="form-group">
-                <input type="text" class="form-control form-control-sm" name="source_author[]" id="formSourceAuthor" placeholder="Enter Source Autor" required>
+                <input type="text" class="form-control form-control-sm" name="source_author[]" id="formSourceAuthor" placeholder="Enter Source Author" required>
                 <input type="text" class="form-control form-control-sm" name="source_reference[]" id="formSourceReference" placeholder="Enter Source Reference" required>
                 <button type="button" class="btn btn-sm btn-danger mt-1" onclick="deleteThisInputGroup(this)">Remove</button>
             </div>
-            `
+            `;
             const parentElement = document.getElementById('source_box').insertAdjacentHTML('beforeend', formString)
         }
 
@@ -119,5 +114,17 @@
                 e.parentElement.remove();
             }
         }
+        const darkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+        tinymce.init({
+            selector: 'textarea#postEditor',
+            skin: (darkMode ? "oxide-dark" : "oxide"),
+            content_css: (darkMode ? "dark" : "default"),
+            placeholder: 'Type here...',
+            menubar: false,
+            content_style: (
+                darkMode ? `.mce-content-body[data-mce-placeholder]:not(.mce-visualblocks)::before {color: rgba(159,157,158,0.8);}`: ''
+            ),
+        });
+
     </script>
 @stop

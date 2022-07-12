@@ -7,6 +7,7 @@
         @include('admin.layouts.sidebar')
 
         <div id="main">
+            @yield('tinymce')
 
             @include('admin.layouts.content_head')            
 
